@@ -6,6 +6,7 @@ import { Navigate } from "react-router-dom";
 
 const InstructorsPage = () => {
   const [loggedInUser, setLoggedInUser] = useRecoilState(userAtom);
+  console.log(loggedInUser);
 
   return (
     <>

@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import userAtom from "../atoms/userAtom";
 import { Navigate } from "react-router-dom";
 
 const LoginPage = () => {
-  const [loggedInUser, setLoggedInUser] = useRecoilState(userAtom);
+  const setLoggedInUser = useSetRecoilState(userAtom);
+  const loggedInUser = useRecoilValue(userAtom);
+
   const [inputs, setInputs] = useState({ email: "", password: "" });
   console.log(inputs);
 
@@ -23,12 +25,14 @@ const LoginPage = () => {
 
       if (data.error) {
         console.log(data.error);
+        alert(data.error);
       } else {
+        console.log(loggedInUser);
         setLoggedInUser(data);
+        console.log(data);
       }
 
       console.log(loggedInUser);
-      toast.success("user logged in successfully");
     } catch (error) {
       console.log(error);
     }

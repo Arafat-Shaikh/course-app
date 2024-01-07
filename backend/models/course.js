@@ -4,12 +4,12 @@ const { Schema } = mongoose;
 const courseSchema = new Schema(
   {
     name: { type: String },
-    level: { type: String, required: true, unique: true },
+    level: { type: String, required: true },
     description: { type: String, required: true },
     imageUrl: { type: String, required: true },
     lectures: [
       {
-        instructorId: { type: String, required: true },
+        name: { type: String, required: true },
         date: { type: String, required: true },
       },
     ],

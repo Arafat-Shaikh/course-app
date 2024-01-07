@@ -8,6 +8,7 @@ const Course = () => {
   const [courses, setCourses] = useRecoilState(coursesAtom);
   const [imgPreview, setImgPreview] = useState(null);
   const [isAddingCourse, setIsAddingCourse] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [inputs, setInputs] = useState({
     name: "",
     level: "",
@@ -15,6 +16,10 @@ const Course = () => {
   });
   async function handleCourseSubmit(e) {
     e.preventDefault();
+
+    if (isLoading) return;
+
+    setIsLoading(true);
     try {
       const res = await fetch("/api/course/create", {
         method: "POST",
@@ -25,6 +30,7 @@ const Course = () => {
       const data = await res.json();
 
       if (data.error) {
+        alert(data.error);
         console.log(data.error);
       } else {
         const updatedCourses = [...courses, data];
@@ -33,6 +39,8 @@ const Course = () => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -87,7 +95,7 @@ const Course = () => {
               {courses.map((course, index) => (
                 <Link
                   key={course._id}
-                  to={`/course/1`}
+                  to={`/course/${course._id}`}
                   className="group transform h-50  w-50 transition duration-500 hover:scale-105 rounded-lg px-2 py-2 "
                 >
                   <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
@@ -100,7 +108,7 @@ const Course = () => {
                   <div className="flex justify-between items-center">
                     <div>
                       <p className="mt-1 text-sm font-bold text-gray-900 ">
-                        {course.name} &nbsp;&nbsp;&nbsp; {course.level}
+                        {course.name} &nbsp;&nbsp;&nbsp; ({course.level})
                       </p>
                       <p className="mt-1 text-xs font-medium text-gray-900 ">
                         {course.description}
@@ -199,7 +207,7 @@ const Course = () => {
                 type="submit"
                 className="mr-4 text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
-                Submit
+                {isLoading ? "...loading" : "Submit"}
               </button>
               <button
                 onClick={() => setIsAddingCourse(false)}

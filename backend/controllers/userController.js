@@ -56,6 +56,7 @@ exports.loginUser = async (req, res) => {
     }
 
     user.password = null;
+
     res.status(200).json(user);
   } catch (error) {
     console.log("error in login user " + error.message);
@@ -71,7 +72,9 @@ exports.getAllUsers = async (req, res) => {
       return res.status(401).json("No users found");
     }
 
-    res.status(200).json(users);
+    const instructors = users.filter((u) => u.isAdmin !== true);
+    console.log("instructors here " + instructors);
+    res.status(200).json(instructors);
   } catch (error) {
     console.log("error getAll users " + error.message);
     res.status(500).json({ error: error.message });
