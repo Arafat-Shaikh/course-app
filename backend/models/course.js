@@ -4,9 +4,9 @@ const { Schema } = mongoose;
 const courseSchema = new Schema(
   {
     name: { type: String },
-    Level: { type: String, required: true, unique: true },
-    Description: { type: String, required: true },
-    ImageUrl: { type: String, required: true },
+    level: { type: String, required: true, unique: true },
+    description: { type: String, required: true },
+    imageUrl: { type: String, required: true },
     lectures: [
       {
         instructorId: { type: String, required: true },
@@ -17,4 +17,4 @@ const courseSchema = new Schema(
   { timestamps: true }
 );
 
-exports.Course = mongoose.model("User", courseSchema);
+exports.Course = mongoose.model("Course", courseSchema);

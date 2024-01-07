@@ -1,13 +1,13 @@
 import { Navigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import userAtom from "../atoms/userAtom";
 const Home = () => {
-  let user = {
-    isAdmin: false,
-  };
+  const [loggedInUser, setLoggedInUser] = useRecoilState(userAtom);
 
   return (
     <>
-      {user.isAdmin && <Navigate to={"/course"} replace={true} />}
-      {!user.isAdmin && <Navigate to={"/lectures"} replace={true} />}
+      {loggedInUser.isAdmin && <Navigate to={"/course"} replace={true} />}
+      {!loggedInUser.isAdmin && <Navigate to={"/lectures"} replace={true} />}
     </>
   );
 };
